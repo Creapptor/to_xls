@@ -54,7 +54,7 @@ module ToXls
       return  @columns if @columns
       @columns = @options[:columns]
       raise ArgumentError.new(":columns (#{columns}) must be an array or nil") unless (@columns.nil? || @columns.is_a?(Array))
-      @columns get_columns_from_first_element
+      @columns ||= get_columns_from_first_element
     end
 
     def can_get_columns_from_first_element?
