@@ -54,7 +54,7 @@ module ToXls
       return  @columns if @columns
       @columns = @options[:columns]
       raise ArgumentError.new(":columns (#{columns}) must be an array or nil") unless (@columns.nil? || @columns.is_a?(Array))
-      @columns ||=  can_get_columns_from_first_element? ? get_columns_from_first_element : []
+      @columns get_columns_from_first_element
     end
 
     def can_get_columns_from_first_element?
@@ -92,9 +92,9 @@ private
     def fill_row(row, column, model=nil)
       case column
       when String, Symbol
-        row.push(model ? model.send(column) : column)
+        row.push(model ? model[column] : column)
       when Hash
-        column.each{|key, values| fill_row(row, values, model && model.send(key))}
+        column.each{|key, values| fill_row(row, values, model && model[key])}
       when Array
         column.each{|value| fill_row(row, value, model)}
       else
